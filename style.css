@@ -158,17 +158,39 @@ body {
   transform: scale(1.02);
 }
 
+.status-card.is-thinking {
+  background:
+    radial-gradient(circle at top left, rgba(225, 239, 255, 0.96), rgba(205, 229, 255, 0.92)),
+    var(--panel);
+  box-shadow:
+    0 18px 34px rgba(29, 78, 216, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+}
+
+.status-card.is-thinking #status {
+  color: #1d4ed8;
+}
+
 .config-card {
   display: grid;
   gap: 10px;
 }
 
+.mode-controls,
 .board-size-controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
+.mode-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.board-size-controls {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.mode-button,
 .board-size-button {
   padding: 11px 10px;
   border: 1px solid rgba(125, 94, 64, 0.18);
@@ -179,6 +201,7 @@ body {
   background: rgba(255, 255, 255, 0.88);
 }
 
+.mode-button.is-active,
 .board-size-button.is-active {
   color: white;
   background: var(--accent);
@@ -285,6 +308,7 @@ button:disabled {
   }
 
   button,
+  .mode-button,
   .board-size-button {
     min-height: 44px;
   }

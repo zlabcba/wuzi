@@ -25,7 +25,9 @@ the static HTML shell.
 - Responsive layout for desktop and mobile
 - 13x13, 15x15, and 19x19 board sizes
 - Desktop defaults to 19x19, phones default to 15x15
+- Two-player and human-vs-computer modes
 - Local two-player play
+- Heuristic computer opponent that blocks obvious wins and builds its own lines
 - Win detection in four directions
 - Undo
 - Restart

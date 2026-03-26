@@ -1,5 +1,6 @@
 export const BOARD_SIZE = 19;
 export const SUPPORTED_BOARD_SIZES = [13, 15, 19];
+export const SUPPORTED_GAME_MODES = ["local", "computer"];
 
 const DIRECTIONS = [
   [0, 1],
@@ -12,6 +13,10 @@ function normalizeBoardSize(boardSize) {
   return SUPPORTED_BOARD_SIZES.includes(boardSize) ? boardSize : BOARD_SIZE;
 }
 
+function normalizeGameMode(gameMode) {
+  return SUPPORTED_GAME_MODES.includes(gameMode) ? gameMode : "local";
+}
+
 export function createEmptyBoard(boardSize = BOARD_SIZE) {
   const normalizedBoardSize = normalizeBoardSize(boardSize);
 
@@ -20,11 +25,12 @@ export function createEmptyBoard(boardSize = BOARD_SIZE) {
   );
 }
 
-export function createGameState(boardSize = BOARD_SIZE) {
+export function createGameState(boardSize = BOARD_SIZE, gameMode = "local") {
   const normalizedBoardSize = normalizeBoardSize(boardSize);
 
   return {
     boardSize: normalizedBoardSize,
+    gameMode: normalizeGameMode(gameMode),
     board: createEmptyBoard(normalizedBoardSize),
     currentPlayer: "black",
     moveHistory: [],
@@ -40,23 +46,6 @@ function isInsideBoard(row, col, boardSize) {
 
 function cloneBoard(board) {
   return board.map((row) => [...row]);
-}
-
-function countDirection(board, row, col, rowStep, colStep, stone, boardSize) {
-  let count = 0;
-  let nextRow = row + rowStep;
-  let nextCol = col + colStep;
-
-  while (
-    isInsideBoard(nextRow, nextCol, boardSize) &&
-    board[nextRow][nextCol] === stone
-  ) {
-    count += 1;
-    nextRow += rowStep;
-    nextCol += colStep;
-  }
-
-  return count;
 }
 
 function collectDirection(board, row, col, rowStep, colStep, stone, boardSize) {
@@ -126,6 +115,7 @@ export function placeStone(state, row, col) {
 
   return {
     boardSize: state.boardSize,
+    gameMode: state.gameMode,
     board,
     currentPlayer: winner ? stone : stone === "black" ? "white" : "black",
     moveHistory: [...state.moveHistory, move],
@@ -135,13 +125,14 @@ export function placeStone(state, row, col) {
   };
 }
 
-export function undoMove(state) {
+export function undoMove(state, steps = 1) {
   if (state.moveHistory.length === 0) {
     return state;
   }
 
-  const nextMoves = state.moveHistory.slice(0, -1);
-  let nextState = createGameState(state.boardSize);
+  const stepCount = Math.max(1, steps);
+  const nextMoves = state.moveHistory.slice(0, -stepCount);
+  let nextState = createGameState(state.boardSize, state.gameMode);
 
   for (const move of nextMoves) {
     nextState = placeStone(nextState, move.row, move.col);
@@ -150,14 +141,24 @@ export function undoMove(state) {
   return nextState;
 }
 
-export function restartGame(stateOrBoardSize = BOARD_SIZE, nextBoardSize) {
-  if (typeof nextBoardSize === "number") {
-    return createGameState(nextBoardSize);
+export function restartGame(
+  stateOrBoardSize = BOARD_SIZE,
+  nextBoardSize,
+  nextGameMode
+) {
+  if (typeof stateOrBoardSize === "object" && stateOrBoardSize !== null) {
+    return createGameState(
+      typeof nextBoardSize === "number" ? nextBoardSize : stateOrBoardSize.boardSize,
+      nextGameMode ?? stateOrBoardSize.gameMode
+    );
   }
 
-  if (typeof stateOrBoardSize === "number") {
-    return createGameState(stateOrBoardSize);
+  if (typeof nextBoardSize === "string") {
+    return createGameState(stateOrBoardSize, nextBoardSize);
   }
 
-  return createGameState(stateOrBoardSize.boardSize);
+  return createGameState(
+    typeof stateOrBoardSize === "number" ? stateOrBoardSize : BOARD_SIZE,
+    nextGameMode
+  );
 }

@@ -27,6 +27,12 @@ test("createGameState accepts a smaller board size", () => {
   assertEqual(state.board[0].length, 15, "board should use the requested column count");
 });
 
+test("createGameState stores the requested game mode", () => {
+  const state = createGameState(19, "computer");
+
+  assertEqual(state.gameMode, "computer", "game mode should be stored in state");
+});
+
 test("placeStone stores a black stone and flips the turn", () => {
   const state = createGameState();
   const nextState = placeStone(state, 9, 9);
@@ -64,6 +70,26 @@ test("undoMove removes the most recent move and restores the turn", () => {
   assertEqual(undone.moveHistory.length, 1, "history should shrink");
   assertEqual(undone.lastMove.row, 9, "previous move should become last move");
   assertEqual(undone.lastMove.col, 9, "previous move should become last move");
+});
+
+test("undoMove can remove two plies for computer mode", () => {
+  let state = createGameState(15, "computer");
+
+  state = placeStone(state, 7, 7);
+  state = placeStone(state, 7, 8);
+  state = placeStone(state, 8, 7);
+  state = placeStone(state, 8, 8);
+
+  const undone = undoMove(state, 2);
+
+  assertEqual(
+    undone.moveHistory.length,
+    2,
+    "undoing two plies should remove the computer response pair"
+  );
+  assertEqual(undone.currentPlayer, "black", "turn should return to the human player");
+  assertEqual(undone.board[8][7], null, "the human move should be removed");
+  assertEqual(undone.board[8][8], null, "the computer move should be removed");
 });
 
 test("restartGame clears the board and resets all metadata", () => {
