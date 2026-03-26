@@ -10,7 +10,7 @@
     <main class="app">
       <header class="header">
         <h1>Gomoku</h1>
-        <p class="subtitle">Local two-player, 19x19 board</p>
+        <p class="subtitle" id="subtitle">Local two-player, 19x19 board</p>
       </header>
 
       <section class="game-panel" aria-label="Game panel">
@@ -32,6 +32,16 @@
           <div class="status-card" id="status-card">
             <span class="label">Status</span>
             <p id="status">Black to move</p>
+          </div>
+
+          <div class="config-card">
+            <span class="label">Board Size</span>
+            <div
+              class="board-size-controls"
+              id="board-size-controls"
+              role="group"
+              aria-label="Board size"
+            ></div>
           </div>
 
           <div class="actions">

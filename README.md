@@ -22,7 +22,9 @@ the static HTML shell.
 
 ## Features
 
-- 19x19 board
+- Responsive layout for desktop and mobile
+- 13x13, 15x15, and 19x19 board sizes
+- Desktop defaults to 19x19, phones default to 15x15
 - Local two-player play
 - Win detection in four directions
 - Undo
