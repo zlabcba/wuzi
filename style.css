@@ -5,7 +5,6 @@
   --wood-dark: #b7834f;
   --ink: #1f1a17;
   --muted: #6e6256;
-  --line: rgba(70, 43, 20, 0.72);
   --accent: #b85c38;
 }
 
@@ -24,14 +23,14 @@ body {
 }
 
 .app {
-  width: min(1120px, calc(100vw - 48px));
+  width: min(1120px, calc(100vw - 32px));
   margin: 0 auto;
-  padding: 32px 0 40px;
+  padding: 24px 0 40px;
 }
 
 .header h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: clamp(2rem, 4vw, 2.5rem);
 }
 
 .subtitle {
@@ -41,7 +40,7 @@ body {
 
 .game-panel {
   display: grid;
-  grid-template-columns: 760px 1fr;
+  grid-template-columns: minmax(0, 1fr) 280px;
   gap: 24px;
   align-items: start;
   margin-top: 24px;
@@ -49,13 +48,14 @@ body {
 
 .board-shell {
   position: relative;
-  width: 760px;
+  width: min(100%, 760px);
 }
 
 #board {
   display: block;
-  width: 760px;
-  height: 760px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
   border-radius: 18px;
   background: linear-gradient(135deg, var(--wood-light), var(--wood-dark));
   box-shadow:
@@ -63,6 +63,7 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: filter 180ms ease, transform 180ms ease;
+  touch-action: manipulation;
 }
 
 .board-shell.has-winner #board {
@@ -75,9 +76,11 @@ body {
   display: grid;
   place-items: center;
   border-radius: 18px;
-  font-size: 3.3rem;
+  padding: 24px;
+  font-size: clamp(2rem, 7vw, 3.3rem);
   font-weight: 800;
   letter-spacing: 0.08em;
+  text-align: center;
   text-transform: uppercase;
   color: #fff7d6;
   text-shadow:
@@ -107,6 +110,7 @@ body {
 }
 
 .status-card,
+.config-card,
 .actions {
   padding: 18px;
   border-radius: 16px;
@@ -154,6 +158,55 @@ body {
   transform: scale(1.02);
 }
 
+.config-card {
+  display: grid;
+  gap: 10px;
+}
+
+.board-size-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.board-size-button {
+  padding: 11px 10px;
+  border: 1px solid rgba(125, 94, 64, 0.18);
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.board-size-button.is-active {
+  color: white;
+  background: var(--accent);
+  border-color: transparent;
+  box-shadow: 0 10px 18px rgba(184, 92, 56, 0.22);
+}
+
+.actions {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  color: white;
+  background: var(--accent);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 @keyframes winner-overlay-pop {
   0% {
     opacity: 0;
@@ -195,23 +248,44 @@ body {
   }
 }
 
-.actions {
-  display: grid;
-  gap: 12px;
+@media (max-width: 900px) {
+  .game-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .actions {
+    align-self: stretch;
+  }
 }
 
-button {
-  width: 100%;
-  padding: 12px 16px;
-  border: none;
-  border-radius: 999px;
-  font: inherit;
-  font-weight: 700;
-  color: white;
-  background: var(--accent);
-}
+@media (max-width: 640px) {
+  .app {
+    width: min(100vw - 20px, 100%);
+    padding: 18px 0 28px;
+  }
 
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
+  .game-panel {
+    gap: 16px;
+  }
+
+  .sidebar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .status-card,
+  .config-card,
+  .actions {
+    padding: 14px;
+  }
+
+  button,
+  .board-size-button {
+    min-height: 44px;
+  }
 }

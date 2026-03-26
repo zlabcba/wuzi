@@ -1,8 +1,18 @@
 import {
+  getBoardMetrics,
   getWinningLineAnimationState,
   getWinningStoneScale,
 } from "../src/render.js";
 import { assertEqual, test } from "./test-framework.js";
+
+test("getBoardMetrics adapts cell size and star points to board size", () => {
+  const nineteen = getBoardMetrics(19);
+  const fifteen = getBoardMetrics(15);
+
+  assertEqual(nineteen.starPointIndexes.join(","), "3,9,15", "19x19 should keep standard star points");
+  assertEqual(fifteen.starPointIndexes.join(","), "3,7,11", "15x15 should use compact star points");
+  assertEqual(fifteen.cellSize > nineteen.cellSize, true, "smaller boards should use larger cells");
+});
 
 test("getWinningLineAnimationState clamps progress and grows opacity", () => {
   const start = getWinningLineAnimationState(-0.25);

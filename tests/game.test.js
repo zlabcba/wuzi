@@ -19,6 +19,14 @@ test("createGameState builds a 19x19 empty board with black to move", () => {
   assertEqual(state.lastMove, null, "last move should start empty");
 });
 
+test("createGameState accepts a smaller board size", () => {
+  const state = createGameState(15);
+
+  assertEqual(state.boardSize, 15, "board size should be stored in state");
+  assertEqual(state.board.length, 15, "board should use the requested row count");
+  assertEqual(state.board[0].length, 15, "board should use the requested column count");
+});
+
 test("placeStone stores a black stone and flips the turn", () => {
   const state = createGameState();
   const nextState = placeStone(state, 9, 9);
@@ -68,6 +76,15 @@ test("restartGame clears the board and resets all metadata", () => {
   assertEqual(restarted.winner, null, "winner should clear");
   assertEqual(restarted.winningLine, null, "winning line should clear");
   assertEqual(restarted.lastMove, null, "last move should clear");
+});
+
+test("restartGame can switch to a different board size", () => {
+  const inProgress = placeStone(placeStone(createGameState(19), 9, 9), 9, 10);
+  const restarted = restartGame(inProgress, 13);
+
+  assertEqual(restarted.boardSize, 13, "restart should switch the stored board size");
+  assertEqual(restarted.board.length, 13, "restart should rebuild the board with the new size");
+  assertEqual(restarted.moveHistory.length, 0, "restart should clear history on size change");
 });
 
 test("placeStone marks a horizontal five-in-a-row win", () => {
