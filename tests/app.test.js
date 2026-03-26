@@ -3,6 +3,7 @@ import {
   getBoardPositionFromClick,
   getBoardSizeOptions,
   getDefaultBoardSize,
+  getDefaultGameMode,
   getModeOptions,
   getStatusViewModel,
   getUndoStepCount,
@@ -113,8 +114,12 @@ test("getStatusViewModel returns a turn presentation during play", () => {
 });
 
 test("getDefaultBoardSize prefers a smaller board on narrow screens", () => {
-  assertEqual(getDefaultBoardSize(390), 15, "phones should default to 15x15");
+  assertEqual(getDefaultBoardSize(390), 13, "phones should default to 13x13");
   assertEqual(getDefaultBoardSize(1024), 19, "desktop widths should default to 19x19");
+});
+
+test("getDefaultGameMode starts in computer mode", () => {
+  assertEqual(getDefaultGameMode(), "computer", "the app should default to computer mode");
 });
 
 test("getBoardSizeOptions marks the active board size", () => {

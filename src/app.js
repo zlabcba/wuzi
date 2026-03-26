@@ -15,7 +15,11 @@ const MOBILE_BREAKPOINT = 700;
 const COMPUTER_MOVE_DELAY = 220;
 
 export function getDefaultBoardSize(viewportWidth) {
-  return viewportWidth < MOBILE_BREAKPOINT ? 15 : BOARD_SIZE;
+  return viewportWidth < MOBILE_BREAKPOINT ? 13 : BOARD_SIZE;
+}
+
+export function getDefaultGameMode() {
+  return "computer";
 }
 
 export function getBoardSizeOptions(activeBoardSize) {
@@ -128,7 +132,7 @@ function mountApp() {
   canvas.width = CANVAS_SIZE;
   canvas.height = CANVAS_SIZE;
 
-  let state = createGameState(getDefaultBoardSize(window.innerWidth), "local");
+  let state = createGameState(getDefaultBoardSize(window.innerWidth), getDefaultGameMode());
   let winnerAnimationStart = null;
   let animationFrameId = null;
   let computerTurnTimeoutId = null;
