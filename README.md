@@ -4,7 +4,7 @@ A small desktop browser Gomoku game built with plain HTML, CSS, and JavaScript.
 
 ## Run the game
 
-1. Start a local static server from `<project-root>`.
+1. Start a local static server from the project root.
 2. Run `./serve.sh` or `python3 -m http.server 8000`.
 3. Open `http://127.0.0.1:8000/index.html` in Chrome.
 
