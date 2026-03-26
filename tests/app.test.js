@@ -3,7 +3,9 @@ import {
   getBoardPositionFromClick,
   getBoardSizeOptions,
   getDefaultBoardSize,
+  getModeOptions,
   getStatusViewModel,
+  getUndoStepCount,
 } from "../src/app.js";
 import { assertEqual, test } from "./test-framework.js";
 
@@ -122,4 +124,26 @@ test("getBoardSizeOptions marks the active board size", () => {
   assertEqual(options[1].label, "15x15", "the middle option should describe the 15 board");
   assertEqual(options[1].isActive, true, "the current board size should be marked active");
   assertEqual(options[0].isActive, false, "other sizes should not be active");
+});
+
+test("getModeOptions marks the active game mode", () => {
+  const options = getModeOptions("computer");
+
+  assertEqual(options.length, 2, "two game modes should be available");
+  assertEqual(options[1].label, "Vs Computer", "computer mode should have a readable label");
+  assertEqual(options[1].isActive, true, "the selected mode should be active");
+});
+
+test("getUndoStepCount removes a full exchange in computer mode", () => {
+  assertEqual(getUndoStepCount("local", 4), 1, "local mode should undo one move");
+  assertEqual(
+    getUndoStepCount("computer", 4),
+    2,
+    "computer mode should undo a human and computer pair"
+  );
+  assertEqual(
+    getUndoStepCount("computer", 1),
+    1,
+    "computer mode should still undo one move if no computer reply exists"
+  );
 });

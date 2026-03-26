@@ -14,7 +14,7 @@ stack: HTML, CSS, and JavaScript without any build tools.
 
 ## Out of Scope
 
-- AI opponent
+- Computer opponent
 - Online multiplayer
 - Mobile support
 - Advanced tournament rules such as forbidden moves
