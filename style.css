@@ -1,0 +1,217 @@
+:root {
+  --bg: #f4efe6;
+  --panel: rgba(255, 250, 242, 0.92);
+  --wood-light: #d8b07a;
+  --wood-dark: #b7834f;
+  --ink: #1f1a17;
+  --muted: #6e6256;
+  --line: rgba(70, 43, 20, 0.72);
+  --accent: #b85c38;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.7), transparent 40%),
+    linear-gradient(180deg, #f8f4ed 0%, var(--bg) 100%);
+  color: var(--ink);
+}
+
+.app {
+  width: min(1120px, calc(100vw - 48px));
+  margin: 0 auto;
+  padding: 32px 0 40px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.game-panel {
+  display: grid;
+  grid-template-columns: 760px 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.board-shell {
+  position: relative;
+  width: 760px;
+}
+
+#board {
+  display: block;
+  width: 760px;
+  height: 760px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--wood-light), var(--wood-dark));
+  box-shadow:
+    0 20px 40px rgba(49, 33, 16, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.board-shell.has-winner #board {
+  filter: brightness(0.6) saturate(0.85);
+}
+
+.winner-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  font-size: 3.3rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff7d6;
+  text-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.45),
+    0 0 24px rgba(255, 224, 138, 0.35);
+  background: radial-gradient(
+    circle at center,
+    rgba(28, 17, 10, 0.12) 0%,
+    rgba(28, 17, 10, 0.42) 55%,
+    rgba(28, 17, 10, 0.58) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.96);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.winner-overlay.is-visible {
+  opacity: 1;
+  transform: scale(1);
+  animation: winner-overlay-pop 720ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.sidebar {
+  display: grid;
+  gap: 16px;
+}
+
+.status-card,
+.actions {
+  padding: 18px;
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: 0 12px 30px rgba(66, 50, 35, 0.08);
+}
+
+.label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+#status {
+  margin: 10px 0 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.status-card {
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.status-card.is-winner {
+  background:
+    radial-gradient(circle at top left, rgba(255, 246, 210, 0.95), rgba(255, 232, 170, 0.92)),
+    var(--panel);
+  box-shadow:
+    0 18px 34px rgba(146, 64, 14, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  transform: translateY(-2px);
+  animation: winner-card-glow 900ms ease-out;
+}
+
+.status-card.is-winner #status {
+  color: #92400e;
+  font-size: 1.55rem;
+  transform: scale(1.02);
+}
+
+@keyframes winner-overlay-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+    letter-spacing: 0.18em;
+  }
+
+  55% {
+    opacity: 1;
+    transform: scale(1.04);
+    letter-spacing: 0.1em;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.08em;
+  }
+}
+
+@keyframes winner-card-glow {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0 10px 22px rgba(66, 50, 35, 0.08);
+  }
+
+  50% {
+    transform: translateY(-4px);
+    box-shadow:
+      0 24px 44px rgba(180, 83, 9, 0.24),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+  }
+
+  100% {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 34px rgba(146, 64, 14, 0.18),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  }
+}
+
+.actions {
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  color: white;
+  background: var(--accent);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gomoku</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <h1>Gomoku</h1>
+        <p class="subtitle">Local two-player, 19x19 board</p>
+      </header>
+
+      <section class="game-panel" aria-label="Game panel">
+        <div class="board-shell" id="board-shell">
+          <canvas
+            id="board"
+            width="760"
+            height="760"
+            aria-label="Gomoku board"
+          ></canvas>
+          <div
+            class="winner-overlay"
+            id="winner-overlay"
+            aria-live="polite"
+          ></div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="status-card" id="status-card">
+            <span class="label">Status</span>
+            <p id="status">Black to move</p>
+          </div>
+
+          <div class="actions">
+            <button id="undo-button" type="button" disabled>Undo</button>
+            <button id="restart-button" type="button">Restart</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
