@@ -1,4 +1,4 @@
-import { placeStone } from "./game.js";
+import { placeStone } from "./game.js?v=20260326-1";
 
 const COMPUTER_PLAYER = "white";
 const HUMAN_PLAYER = "black";

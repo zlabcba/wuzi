@@ -1,4 +1,4 @@
-import { chooseComputerMove } from "./computer.js";
+import { chooseComputerMove } from "./computer.js?v=20260326-1";
 import {
   BOARD_SIZE,
   SUPPORTED_BOARD_SIZES,
@@ -7,8 +7,8 @@ import {
   placeStone,
   restartGame,
   undoMove,
-} from "./game.js";
-import { BOARD_PADDING, CANVAS_SIZE, getBoardMetrics, drawGame } from "./render.js";
+} from "./game.js?v=20260326-1";
+import { BOARD_PADDING, CANVAS_SIZE, getBoardMetrics, drawGame } from "./render.js?v=20260326-1";
 
 const WIN_ANIMATION_DURATION = 1100;
 const MOBILE_BREAKPOINT = 700;
